@@ -201,18 +201,63 @@ button{font-family:inherit}
 <div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #C9A45C">Email</span><a href="mailto:thedecorvogue@gmail.com" style="color: #FBF7F2">thedecorvogue@gmail.com</a></div>
 </div>
 </div>
-<form style="background: #FBF7F2; color: #2E1A24; border-radius: 24px; padding: 40px; display: flex; flex-direction: column; gap: 18px">
+<form id="quoteForm" style="background: #FBF7F2; color: #2E1A24; border-radius: 24px; padding: 40px; display: flex; flex-direction: column; gap: 18px">
+<input type="hidden" name="access_key" value="0b3a53e4-0feb-4062-93dc-4a650ac17282">
+<input type="hidden" name="subject" value="New quote request — Balloons by The Decor Vogue">
+<input type="checkbox" name="botcheck" style="display: none" tabindex="-1" autocomplete="off">
 <h3 style="margin: 0 0 4px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 32px; font-weight: 600">Request a quote</h3>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Name<input type="text" placeholder="Your name" style="font: inherit; font-weight: 400; padding: 13px 14px; border: 1px solid #D9CBC2; border-radius: 10px; background: #ffffff"></label>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Phone<input type="tel" placeholder="Phone number" style="font: inherit; font-weight: 400; padding: 13px 14px; border: 1px solid #D9CBC2; border-radius: 10px; background: #ffffff"></label>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Event date<input type="date" style="font: inherit; font-weight: 400; padding: 12px 14px; border: 1px solid #D9CBC2; border-radius: 10px; background: #ffffff"></label>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Event type<select style="font: inherit; font-weight: 400; padding: 13px 14px; border: 1px solid #D9CBC2; border-radius: 10px; background: #ffffff"><option>Birthday</option><option>Baby shower</option><option>Corporate</option><option>Other</option></select></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Name<input type="text" name="name" required placeholder="Your name" style="font: inherit; font-weight: 400; padding: 13px 14px; border: 1px solid #D9CBC2; border-radius: 10px; background: #ffffff"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Phone<input type="tel" name="phone" placeholder="Phone number" style="font: inherit; font-weight: 400; padding: 13px 14px; border: 1px solid #D9CBC2; border-radius: 10px; background: #ffffff"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Event date<input type="date" name="event_date" style="font: inherit; font-weight: 400; padding: 12px 14px; border: 1px solid #D9CBC2; border-radius: 10px; background: #ffffff"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Event type<select name="event_type" style="font: inherit; font-weight: 400; padding: 13px 14px; border: 1px solid #D9CBC2; border-radius: 10px; background: #ffffff"><option>Birthday</option><option>Baby shower</option><option>Corporate</option><option>Other</option></select></label>
 </div>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Email<input type="email" placeholder="you@example.com" style="font: inherit; font-weight: 400; padding: 13px 14px; border: 1px solid #D9CBC2; border-radius: 10px; background: #ffffff"></label>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Tell us about your event<textarea rows="4" placeholder="Venue, colours, theme, guest count…" style="font: inherit; font-weight: 400; padding: 13px 14px; border: 1px solid #D9CBC2; border-radius: 10px; background: #ffffff; resize: vertical"></textarea></label>
-<button type="submit" style="font: inherit; font-weight: 600; font-size: 16px; background: #2E1A24; color: #FBF7F2; border: 0; border-radius: 999px; padding: 17px 28px; cursor: pointer; align-self: flex-start">Send Request</button>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Email<input type="email" name="email" required placeholder="you@example.com" style="font: inherit; font-weight: 400; padding: 13px 14px; border: 1px solid #D9CBC2; border-radius: 10px; background: #ffffff"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Tell us about your event<textarea rows="4" name="message" placeholder="Venue, colours, theme, guest count…" style="font: inherit; font-weight: 400; padding: 13px 14px; border: 1px solid #D9CBC2; border-radius: 10px; background: #ffffff; resize: vertical"></textarea></label>
+<button type="submit" id="quoteFormBtn" style="font: inherit; font-weight: 600; font-size: 16px; background: #2E1A24; color: #FBF7F2; border: 0; border-radius: 999px; padding: 17px 28px; cursor: pointer; align-self: flex-start">Send Request</button>
+<p id="quoteFormMsg" style="margin: 0; font-size: 14px; display: none"></p>
 </form>
+<script>
+(function () {
+var form = document.getElementById('quoteForm');
+var btn = document.getElementById('quoteFormBtn');
+var msg = document.getElementById('quoteFormMsg');
+form.addEventListener('submit', function (e) {
+e.preventDefault();
+btn.disabled = true;
+btn.textContent = 'Sending…';
+msg.style.display = 'none';
+var formData = new FormData(form);
+var payload = Object.fromEntries(formData);
+fetch('https://api.web3forms.com/submit', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+body: JSON.stringify(payload)
+})
+.then(function (res) { return res.json(); })
+.then(function (data) {
+if (data.success) {
+form.reset();
+msg.textContent = "Thank you! We've received your request and will be in touch soon.";
+msg.style.color = '#3B7A45';
+} else {
+msg.textContent = 'Something went wrong. Please email us directly at thedecorvogue@gmail.com.';
+msg.style.color = '#B3261E';
+}
+msg.style.display = 'block';
+})
+.catch(function () {
+msg.textContent = 'Something went wrong. Please email us directly at thedecorvogue@gmail.com.';
+msg.style.color = '#B3261E';
+msg.style.display = 'block';
+})
+.finally(function () {
+btn.disabled = false;
+btn.textContent = 'Send Request';
+});
+});
+})();
+</script>
 </div>
 </section>
 
