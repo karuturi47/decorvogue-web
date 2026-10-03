@@ -59,12 +59,12 @@ img{max-width:100%}
 
 /* ---- mobile nav ---- */
 @media (max-width:880px){
-  .nav-links{position:absolute;top:100%;left:0;right:0;background:#FBF7F2;border-bottom:1px solid #EADFD6;flex-direction:column;align-items:stretch;gap:0;padding:8px 0;display:none}
+  .nav-links{position:absolute;top:100%;left:0;right:0;background:#FBF7F2;border-bottom:1px solid #EADFD6;flex-direction:column;align-items:stretch;gap:0;padding:8px 0;display:none;z-index:100;box-shadow:0 12px 24px rgba(35,20,25,0.12)}
   .nav-links.open{display:flex}
   .nav-links a{padding:14px 24px}
   .nav-links a:last-child{margin:8px 24px;text-align:center}
   .hamburger{display:block}
-  header{position:relative}
+  header{position:relative;z-index:100}
 }
 
 /* ---- phone ---- */
